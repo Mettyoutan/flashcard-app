@@ -73,7 +73,8 @@ export class AuthController {
     // Remove refresh from cookie
     res.cookie('refresh_token', null, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
+      secure: true,
       maxAge: 0,
       path: '/auth',
     });
@@ -82,7 +83,8 @@ export class AuthController {
   private saveRefreshToCookie(res: Response, refresh: string): void {
     res.cookie('refresh_token', refresh, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none', // domain tidak harus sama persis untuk bisa akses cookie
+      secure: true, // wajib secure
       maxAge: RERFRESH_EXPIRES_IN_MS,
       path: '/auth',
     });

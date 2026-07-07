@@ -44,12 +44,16 @@
 
 ### 6. Frontend (Next.js App Router)
 > Cek `node_modules/next/dist/docs/` dulu sebelum nulis App Router code — versi ini breaking changes dari training data.
-- [ ] Setup: Tailwind (sudah ada) + init shadcn/ui, `.env.local` (`NEXT_PUBLIC_API_URL`)
-- [ ] Auth pages: `/login`, `/register` — client component, fetch ke API, simpan token (cookie httpOnly lewat API kalau memungkinkan, atau minimal localStorage buat versi belajar)
-- [ ] `/decks` — list deck user (server component fetch + auth check)
+>
+> **Setup + Auth pages** punya spec detail sendiri: `docs/superpowers/specs/2026-07-07-web-auth-setup-design.md` (arsitektur, keputusan token storage, dll — jangan diulang di sini).
+
+- [ ] Backend fix dulu (blocker, kecil): `auth.controller.ts` `sameSite: 'strict'` → `'none'` + `secure: true` (2 tempat: `saveRefreshToCookie` + `logout`); `main.ts` `enableCors({origin: []})` → isi origin `web` beneran (env var, bukan hardcode)
+- [ ] Port lokal: `api` default 3000, `web` (`next dev`) juga default 3000 — bentrok. Jalanin `web` di 3001 (`next dev -p 3001`)
+- [ ] Setup: Tailwind (sudah ada) + init shadcn/ui (`button`/`input`/`label`/`card`), `.env.local` (`NEXT_PUBLIC_API_URL=http://localhost:3000`)
+- [ ] Auth pages: `app/(auth)/login/page.tsx`, `app/(auth)/register/page.tsx` (Route Group — URL tetap `/login`/`/register`) — client component, `useState` form (bukan react-hook-form, user masih belajar React dasar), fetch langsung ke NestJS API (`credentials:'include'`, **bukan** proxy Next.js). `refresh_token` httpOnly cookie di-manage backend; `access` token disimpen di `localStorage`.
+- [ ] `/decks` — list deck user (server component fetch + auth check) — **route protection (middleware) masuk sini**, bukan di fase auth
 - [ ] `/decks/[id]` — list card dalam deck + form tambah/edit card
 - [ ] `/decks/[id]/study` — study view: flip card, next/prev (client component, local state)
-- [ ] CORS: whitelist origin frontend di `main.ts` NestJS (`app.enableCors`)
 
 ### 7. Deploy (definition of done)
 - [ ] DB: provision Neon Postgres, jalanin migration production

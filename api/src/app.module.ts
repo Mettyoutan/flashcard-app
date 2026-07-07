@@ -12,6 +12,7 @@ import z from 'zod';
 const ConfigSchema = z.object({
   DATABASE_URL: z.string(),
   JWT_SECRET: z.string(),
+  FRONTEND_URL: z.string(),
 });
 
 @Module({
