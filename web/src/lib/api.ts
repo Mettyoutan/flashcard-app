@@ -12,7 +12,7 @@ export class ApiError extends Error {
 }
 
 export type ApiFetchOptions = {
-  method?: string;
+  method: string;
   body?: unknown;
   headers?: HeadersInit;
 };
@@ -24,12 +24,13 @@ export type ApiFetchOptions = {
  */
 export async function apiFetch<T = unknown>(
   path: string,
-  options: ApiFetchOptions = {},
+  options: ApiFetchOptions = { method: "GET" },
 ) {
   const token = localStorage.getItem("access_token");
 
   const res = await fetch(`${API_URL}${path}`, {
-    method: undefined,
+    method: options.method,
+    credentials: "include", // Wajib agar cookie tidak dibuang
     headers: {
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}), // Masukin Authorization header
