@@ -61,7 +61,7 @@ export default function SigninPage() {
       //* Sangat penting untuk redirect kalau sukses
       router.push("/");
     } catch (e: unknown) {
-      setError(e instanceof ApiError ? e.message : "Registration failed.");
+      setError(e instanceof ApiError ? e.message : "Signin failed.");
     } finally {
       setIsSubmitting(false); // Reset lagi
     }
