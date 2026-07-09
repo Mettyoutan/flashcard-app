@@ -10,6 +10,7 @@ type DeckCardProps = {
 // DeckCard punya parameter yg butuh props berisi deck
 // Atau data dari deck
 export default function DeckCard({ deck }: DeckCardProps) {
+  // DeckCard punya title dan description (optional)
   return (
     <Card>
       <CardHeader>
