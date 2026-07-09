@@ -11,8 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "lucide-react";
-import { Input } from "@base-ui/react";
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface AuthResponse {
