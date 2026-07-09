@@ -23,6 +23,7 @@ const zod_1 = __importDefault(require("zod"));
 const ConfigSchema = zod_1.default.object({
     DATABASE_URL: zod_1.default.string(),
     JWT_SECRET: zod_1.default.string(),
+    FRONTEND_URL: zod_1.default.string(),
 });
 let AppModule = class AppModule {
 };

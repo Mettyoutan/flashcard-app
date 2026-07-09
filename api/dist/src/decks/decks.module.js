@@ -10,13 +10,11 @@ exports.DecksModule = void 0;
 const common_1 = require("@nestjs/common");
 const decks_service_1 = require("./decks.service");
 const decks_controller_1 = require("./decks.controller");
-const auth_module_1 = require("../auth/auth.module");
 let DecksModule = class DecksModule {
 };
 exports.DecksModule = DecksModule;
 exports.DecksModule = DecksModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule],
         providers: [decks_service_1.DecksService],
         controllers: [decks_controller_1.DecksController],
     })

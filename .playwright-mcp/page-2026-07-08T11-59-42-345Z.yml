@@ -1,0 +1,8 @@
+- generic [active] [ref=f13e1]:
+  - generic [ref=f13e2]:
+    - heading "Flashcard App" [level=1] [ref=f13e3]
+    - generic [ref=f13e4]:
+      - button "Login" [ref=f13e5]
+      - button "Daftar" [ref=f13e6]
+  - button "Open Next.js Dev Tools" [ref=f13e12] [cursor=pointer]:
+    - img [ref=f13e13]

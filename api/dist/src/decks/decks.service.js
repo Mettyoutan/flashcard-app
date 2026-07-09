@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DecksService = void 0;
 const common_1 = require("@nestjs/common");
 const database_service_1 = require("../database/database.service");
+const client_1 = require("../../generated/prisma/client");
 let DecksService = class DecksService {
     db;
     constructor(db) {
@@ -37,9 +38,28 @@ let DecksService = class DecksService {
         });
     }
     async update(userId, deckId, updateDeckDto) {
-        return await this.db.deck.update({
+        return await this.db.deck
+            .update({
             where: { userId, id: deckId },
-            data: updateDeckDto,
+            data: { ...updateDeckDto },
+        })
+            .catch((e) => {
+            if (e instanceof client_1.Prisma.PrismaClientKnownRequestError &&
+                e.code === 'P2025') {
+                throw new common_1.NotFoundException('Deck not found.');
+            }
+            throw e;
+        });
+    }
+    async delete(userId, deckId) {
+        await this.db.deck
+            .delete({ where: { userId, id: deckId } })
+            .catch((e) => {
+            if (e instanceof client_1.Prisma.PrismaClientKnownRequestError &&
+                e.code === 'P2025') {
+                throw new common_1.NotFoundException('Deck not found.');
+            }
+            throw e;
         });
     }
 };

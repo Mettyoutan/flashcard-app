@@ -46,7 +46,8 @@ let AuthController = class AuthController {
         await this.authService.logout(refreshToken);
         res.cookie('refresh_token', null, {
             httpOnly: true,
-            sameSite: 'strict',
+            sameSite: 'none',
+            secure: true,
             maxAge: 0,
             path: '/auth',
         });
@@ -54,7 +55,8 @@ let AuthController = class AuthController {
     saveRefreshToCookie(res, refresh) {
         res.cookie('refresh_token', refresh, {
             httpOnly: true,
-            sameSite: 'strict',
+            sameSite: 'none',
+            secure: true,
             maxAge: jwt_constant_1.RERFRESH_EXPIRES_IN_MS,
             path: '/auth',
         });

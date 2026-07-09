@@ -9,4 +9,5 @@ export declare class DecksService {
     findById(userId: string, deckId: string): Promise<Deck>;
     create(userId: string, createDeckDto: CreateDeckDto): Promise<Deck>;
     update(userId: string, deckId: string, updateDeckDto: UpdateDeckDto): Promise<Deck>;
+    delete(userId: string, deckId: string): Promise<void>;
 }

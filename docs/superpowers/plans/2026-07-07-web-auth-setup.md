@@ -32,14 +32,14 @@
 - Consumes: nothing new
 - Produces: `FRONTEND_URL` env var, validated by `ConfigSchema`, read directly via `process.env.FRONTEND_URL` in `main.ts` (matches existing `process.env.PORT` pattern in the same file — `main.ts` doesn't use `ConfigService` injection, it reads `process.env` directly)
 
-- [ ] **Step 1: Add `FRONTEND_URL` to the env file**
+- [x] **Step 1: Add `FRONTEND_URL` to the env file**
 
 Run (appends without touching existing secrets):
 ```bash
 echo "FRONTEND_URL=http://localhost:3001" >> api/.env
 ```
 
-- [ ] **Step 2: Add `FRONTEND_URL` to the validated config schema**
+- [x] **Step 2: Add `FRONTEND_URL` to the validated config schema**
 
 In `api/src/app.module.ts`, change:
 ```ts
@@ -57,7 +57,7 @@ const ConfigSchema = z.object({
 });
 ```
 
-- [ ] **Step 3: Fix the CORS origin allowlist**
+- [x] **Step 3: Fix the CORS origin allowlist**
 
 In `api/src/main.ts`, change:
 ```ts
@@ -74,7 +74,7 @@ to:
   });
 ```
 
-- [ ] **Step 4: Fix `sameSite` on the refresh cookie (set)**
+- [x] **Step 4: Fix `sameSite` on the refresh cookie (set)**
 
 In `api/src/auth/auth.controller.ts`, change:
 ```ts
@@ -100,7 +100,7 @@ to:
   }
 ```
 
-- [ ] **Step 5: Fix `sameSite` on the refresh cookie (clear, in `logout`)**
+- [x] **Step 5: Fix `sameSite` on the refresh cookie (clear, in `logout`)**
 
 In the same file, change:
 ```ts
@@ -124,17 +124,17 @@ to:
     });
 ```
 
-- [ ] **Step 6: Typecheck**
+- [x] **Step 6: Typecheck**
 
 Run: `cd api && npx tsc --noEmit -p tsconfig.json`
 Expected: no output (clean)
 
-- [ ] **Step 6b: Lint**
+- [x] **Step 6b: Lint**
 
 Run: `cd api && npm run lint`
 Expected: no errors (auto-fixable style issues get fixed in place by `eslint --fix`; if it modifies files, re-check the diff before committing)
 
-- [ ] **Step 7: Manual verification — start the server and register a test user**
+- [x] **Step 7: Manual verification — start the server and register a test user**
 
 Run: `cd api && npm run start:dev` (leave running in its own terminal)
 
@@ -153,7 +153,7 @@ Expected in the response headers:
 
 (Note: `Secure` cookies are allowed over plain `http://localhost` — browsers treat `localhost` as a secure context. This only matters once a real browser is involved in Task 4+; curl doesn't enforce it either way.)
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add api/src/app.module.ts api/src/main.ts api/src/auth/auth.controller.ts
@@ -174,7 +174,7 @@ git commit -m "fix: cross-origin refresh cookie + CORS origin allowlist"
 - Consumes: nothing
 - Produces: `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/label`, `@/components/ui/card` (shadcn components, consumed by Tasks 4-6), `@/lib/utils` (shadcn's `cn()` helper)
 
-- [ ] **Step 1: Pin the dev port to 3001**
+- [x] **Step 1: Pin the dev port to 3001**
 
 In `web/package.json`, change:
 ```json
@@ -185,14 +185,14 @@ to:
     "dev": "next dev -p 3001",
 ```
 
-- [ ] **Step 2: Create the env file**
+- [x] **Step 2: Create the env file**
 
 Create `web/.env.local`:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-- [ ] **Step 3: Init shadcn/ui**
+- [x] **Step 3: Init shadcn/ui**
 
 Run:
 ```bash
@@ -200,7 +200,7 @@ cd web && npx shadcn@latest init -d
 ```
 Expected: creates `components.json`, `src/lib/utils.ts`, updates `src/app/globals.css`; exits 0.
 
-- [ ] **Step 4: Add the components needed for the auth forms**
+- [x] **Step 4: Add the components needed for the auth forms**
 
 Run:
 ```bash
@@ -208,7 +208,7 @@ cd web && npx shadcn@latest add button input label card
 ```
 Expected: creates `src/components/ui/button.tsx`, `input.tsx`, `label.tsx`, `card.tsx`; exits 0.
 
-- [ ] **Step 5: Verify the dev server runs on the new port**
+- [x] **Step 5: Verify the dev server runs on the new port**
 
 Run: `cd web && npm run dev` (leave running), then in another terminal:
 ```bash
@@ -216,7 +216,7 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3001
 ```
 Expected: `200`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add web/package.json web/.env.local web/components.json web/src/lib/utils.ts web/src/components/ui web/src/app/globals.css
@@ -234,7 +234,7 @@ git commit -m "chore: pin web dev port to 3001, init shadcn/ui"
 - Consumes: `process.env.NEXT_PUBLIC_API_URL` (from Task 2's `.env.local`)
 - Produces: `apiFetch<T = unknown>(path: string, options?: { method?: string; body?: unknown; headers?: HeadersInit }): Promise<T>`, `class ApiError extends Error { status: number }` — consumed by Tasks 4, 5, 6
 
-- [ ] **Step 1: Write the helper**
+- [x] **Step 1: Write the helper**
 
 Create `web/src/lib/api.ts`:
 ```ts
@@ -285,12 +285,12 @@ export async function apiFetch<T = unknown>(
 }
 ```
 
-- [ ] **Step 2: Typecheck**
+- [x] **Step 2: Typecheck**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: no output (clean)
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add web/src/lib/api.ts
@@ -299,18 +299,20 @@ git commit -m "feat: add apiFetch helper for direct cross-origin API calls"
 
 ---
 
-### Task 4: Register page
+### Task 4: Signin page (create account)
 
 **Files:**
-- Create: `web/src/app/(auth)/register/page.tsx`
+- Create: `web/src/app/(auth)/signin/page.tsx`
 
 **Interfaces:**
 - Consumes: `apiFetch<T>`, `ApiError` (Task 3); `Button`, `Input`, `Label`, `Card`, `CardContent`, `CardDescription`, `CardHeader`, `CardTitle` (Task 2)
-- Produces: route `/register`
+- Produces: route `/signin`
 
-- [ ] **Step 1: Write the page**
+Named `signin` (not `register`) to match the backend endpoint `POST /auth/signin` (`auth.controller.ts`) — the NestJS side uses "signin" for account creation and "login" for authenticating an existing user. Folder/route name mirrors that so `/signin` ↔ `/auth/signin`, `/login` ↔ `/auth/login`. User-facing copy ("Daftar Akun") stays in Indonesian regardless.
 
-Create `web/src/app/(auth)/register/page.tsx`:
+- [x] **Step 1: Write the page**
+
+Create `web/src/app/(auth)/signin/page.tsx`:
 ```tsx
 'use client';
 
@@ -331,10 +333,16 @@ import { apiFetch, ApiError } from '@/lib/api';
 
 interface AuthResponse {
   access: string;
-  user: { id: string; username: string; email: string };
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
 
-export default function RegisterPage() {
+export default function SigninPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -418,24 +426,32 @@ export default function RegisterPage() {
 }
 ```
 
-- [ ] **Step 2: Typecheck**
+- [x] **Step 2: Typecheck**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: no output (clean)
 
 - [ ] **Step 3: Manual verification**
 
-With `api` (Task 1, port 3000) and `web` (`npm run dev`, port 3001) both running, open `http://localhost:3001/register` in a browser, fill the form with a new username/email/password (min 6 chars), submit.
+With `api` (Task 1, port 3000) and `web` (`npm run dev`, port 3001) both running, open `http://localhost:3001/signin` in a browser, fill the form with a new username/email/password (min 6 chars), submit.
 Expected: redirected to `http://localhost:3001/`; DevTools → Application → Local Storage has `access_token`; DevTools → Application → Cookies shows `refresh_token` with `HttpOnly` ✓, `Secure` ✓, `SameSite=None`.
 
 Then submit the same email again.
 Expected: inline error message renders under the form (409 Conflict — "User with this email already exists.").
 
-- [ ] **Step 4: Commit**
+**Status (2026-07-08):** happy path verified via Playwright (fresh username/email/password → `POST /auth/signin` 201 → redirect `/` → `access_token` in localStorage → `refresh_token` cookie present with `httpOnly`/`secure`/`sameSite=None`). Duplicate-email 409 path **not yet tested**.
+
+During this verification, the actual `web/src/lib/api.ts` (hand-written, diverged from the Task 3 snippet) had two bugs found + fixed via `superpowers:systematic-debugging`:
+1. `fetch(url, { method: undefined, ... })` — `options.method` was never wired in, so every call silently defaulted to `GET`; `GET` + a body throws a client-side `TypeError` before the request ever reaches the network (this was the actual cause of the "Registration failed." error the user saw — nothing to do with the backend).
+2. `credentials: 'include'` was missing entirely — request still succeeded, but the browser silently dropped the `refresh_token` `Set-Cookie` (cross-origin response, default `fetch` credentials mode is `same-origin`). No visible error; confirmed via `page.context().cookies()` returning `[]` before the fix, populated after.
+
+Both fixed in `web/src/lib/api.ts` (uncommitted as of this note — see Step 4).
+
+- [x] **Step 4: Commit**
 
 ```bash
-git add "web/src/app/(auth)/register/page.tsx"
-git commit -m "feat: add register page"
+git add "web/src/app/(auth)/signin/page.tsx"
+git commit -m "feat: add signin page"
 ```
 
 ---
@@ -449,7 +465,7 @@ git commit -m "feat: add register page"
 - Consumes: `apiFetch<T>`, `ApiError` (Task 3); `Button`, `Input`, `Label`, `Card`, `CardContent`, `CardDescription`, `CardHeader`, `CardTitle` (Task 2)
 - Produces: route `/login`
 
-- [ ] **Step 1: Write the page**
+- [x] **Step 1: Write the page**
 
 Create `web/src/app/(auth)/login/page.tsx`:
 ```tsx
@@ -472,7 +488,13 @@ import { apiFetch, ApiError } from '@/lib/api';
 
 interface AuthResponse {
   access: string;
-  user: { id: string; username: string; email: string };
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
 
 export default function LoginPage() {
@@ -537,7 +559,7 @@ export default function LoginPage() {
           </form>
           <p className="mt-4 text-center text-sm">
             Belum punya akun?{' '}
-            <Link href="/register" className="underline">
+            <Link href="/signin" className="underline">
               Daftar
             </Link>
           </p>
@@ -548,12 +570,12 @@ export default function LoginPage() {
 }
 ```
 
-- [ ] **Step 2: Typecheck**
+- [x] **Step 2: Typecheck**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: no output (clean)
 
-- [ ] **Step 3: Manual verification**
+- [x] **Step 3: Manual verification**
 
 Log out (clear `access_token` from localStorage manually via DevTools if Task 6 isn't done yet), go to `http://localhost:3001/login`, log in with the account created in Task 4.
 Expected: redirected to `/`, `access_token` present in localStorage.
@@ -561,7 +583,15 @@ Expected: redirected to `/`, `access_token` present in localStorage.
 Try logging in with a wrong password.
 Expected: inline error renders ("Wrong email or password.").
 
-- [ ] **Step 4: Commit**
+**Status (2026-07-09):** verified via Playwright — login with an existing account (`cookietest1@example.com`) → redirect `/` → home page shows "Logout" → click Logout → flips back to "Login"/"Daftar" → `access_token` removed from localStorage. Wrong-password path not explicitly tested.
+
+The actual hand-written page (diverged from the snippet below) initially had two import bugs, caught by browser-rendering it (not by `tsc`, since both packages resolve and are shape-compatible enough to typecheck clean):
+1. `import { Link } from "lucide-react"` — resolves to the *icon* export named `Link` (a chain-link SVG glyph), not `next/link`'s router component. Rendered as an unclickable icon instead of the "Daftar" navigation link.
+2. `import { Input } from "@base-ui/react"` — the raw Base UI primitive (installed as the underlying headless library shadcn was initialized on), bypassing the project's styled `@/components/ui/input` wrapper. Rendered with no border/box at all.
+
+Both fixed by the user (commit `9e5b027 fix: login page import`) — swapped to `import Link from 'next/link'` and `import { Input } from '@/components/ui/input'`.
+
+- [x] **Step 4: Commit**
 
 ```bash
 git add "web/src/app/(auth)/login/page.tsx"
@@ -579,7 +609,7 @@ git commit -m "feat: add login page"
 - Consumes: `apiFetch` (Task 3); `Button` (Task 2)
 - Produces: nothing consumed by later tasks (this is the last task in this phase)
 
-- [ ] **Step 1: Rewrite the home page**
+- [x] **Step 1: Rewrite the home page**
 
 Replace the entire contents of `web/src/app/page.tsx` with:
 ```tsx
@@ -616,7 +646,7 @@ export default function HomePage() {
       ) : (
         <div className="flex gap-4">
           <Button onClick={() => router.push('/login')}>Login</Button>
-          <Button variant="outline" onClick={() => router.push('/register')}>
+          <Button variant="outline" onClick={() => router.push('/signin')}>
             Daftar
           </Button>
         </div>
@@ -626,22 +656,30 @@ export default function HomePage() {
 }
 ```
 
-- [ ] **Step 2: Typecheck**
+- [x] **Step 2: Typecheck**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: no output (clean)
 
-- [ ] **Step 3: Manual verification — full round trip**
+- [x] **Step 3: Manual verification — full round trip**
 
 With both servers running: visit `/`, confirm "Login"/"Daftar" buttons show when logged out. Log in (Task 5's account). Confirm redirect to `/` shows a "Logout" button instead. Click it.
 Expected: button flips back to "Login"/"Daftar"; `access_token` removed from localStorage; `refresh_token` cookie cleared (DevTools shows it gone or expired).
 
-- [ ] **Step 4: Lint (whole `web` project, since this touches the root page)**
+**Status (2026-07-09):** verified via Playwright, full round trip confirmed. Two known non-blocking gaps left open (not fixed — user hasn't requested it):
+1. `isLoading` initialized to `false` instead of `true` (diverges from the snippet below) — causes a brief flash of the logged-out UI before the `useEffect` localStorage check resolves.
+2. `handleLogout` has no `try/catch` — if `/auth/logout` fails (e.g. access token already expired, rejected by `JwtGuard`), the `await` throws, `localStorage.removeItem` and `setIsLoggedIn(false)` never run, leaving the UI stuck showing "Logout" for a dead session.
+
+Both are related to the broader "what happens when the access token expires" gap, which is intentionally deferred to the `/decks` sub-project per the design spec (real route protection / token refresh needs an actual protected page to build against).
+
+**Plan status: all 6 tasks committed and manually verified (2026-07-09).** Auth setup phase (register/login/logout against the real API) is functionally complete. Next milestone per `docs/ROADMAP.md` section 6: `/decks` (list page, server component + route protection middleware — where the token-expiry gap above finally gets addressed).
+
+- [x] **Step 4: Lint (whole `web` project, since this touches the root page)**
 
 Run: `cd web && npm run lint`
 Expected: no errors
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add web/src/app/page.tsx

@@ -28,7 +28,7 @@ exports.AuthModule = AuthModule = __decorate([
                 useFactory: (config) => {
                     const secret = config.get('JWT_SECRET');
                     return {
-                        secretOrPrivateKey: secret,
+                        secret,
                     };
                 },
             }),

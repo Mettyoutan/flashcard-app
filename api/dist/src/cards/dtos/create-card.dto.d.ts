@@ -1,11 +1,11 @@
-export declare const CreateCartSchema: import("zod").ZodObject<{
+export declare const CreateCardSchema: import("zod").ZodObject<{
     front: import("zod").ZodString;
     back: import("zod").ZodString;
 }, import("zod/v4/core").$strip>;
-declare const CreateCartDto_base: import("nestjs-zod").ZodDto<import("zod").ZodObject<{
+declare const CreateCardDto_base: import("nestjs-zod").ZodDto<import("zod").ZodObject<{
     front: import("zod").ZodString;
     back: import("zod").ZodString;
 }, import("zod/v4/core").$strip>, false>;
-export declare class CreateCartDto extends CreateCartDto_base {
+export declare class CreateCardDto extends CreateCardDto_base {
 }
 export {};

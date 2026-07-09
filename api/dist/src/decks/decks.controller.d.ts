@@ -9,5 +9,6 @@ export declare class DecksController {
     findAll(user: Omit<User, 'password'>): Promise<Deck[]>;
     findById(id: string, user: Omit<User, 'password'>): Promise<Deck>;
     create(user: Omit<User, 'password'>, createDeckDto: CreateDeckDto): Promise<Deck>;
-    update(id: string, user: Omit<User, 'password'>, updateDeckDto: UpdateDeckDto): Promise<void>;
+    update(id: string, user: Omit<User, 'password'>, updateDeckDto: UpdateDeckDto): Promise<Deck>;
+    delete(id: string, user: Omit<User, 'password'>): Promise<void>;
 }

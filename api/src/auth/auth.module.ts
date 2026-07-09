@@ -16,7 +16,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       useFactory: (config: ConfigService) => {
         const secret = config.get<string>('JWT_SECRET');
         return {
-          secretOrPrivateKey: secret,
+          secret,
         };
       },
     }),

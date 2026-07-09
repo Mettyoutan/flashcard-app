@@ -33,7 +33,12 @@ let DecksController = class DecksController {
     async create(user, createDeckDto) {
         return await this.decksService.create(user.id, createDeckDto);
     }
-    async update(id, user, updateDeckDto) { }
+    async update(id, user, updateDeckDto) {
+        return await this.decksService.update(user.id, id, updateDeckDto);
+    }
+    async delete(id, user) {
+        await this.decksService.delete(user.id, id);
+    }
 };
 exports.DecksController = DecksController;
 __decorate([
@@ -48,7 +53,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
@@ -68,13 +73,23 @@ __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Patch)(':id'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object, update_deck_dto_1.UpdateDeckDto]),
     __metadata("design:returntype", Promise)
 ], DecksController.prototype, "update", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
+    (0, common_1.Delete)(':id'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], DecksController.prototype, "delete", null);
 exports.DecksController = DecksController = __decorate([
     (0, common_1.Controller)('decks'),
     __metadata("design:paramtypes", [decks_service_1.DecksService])
