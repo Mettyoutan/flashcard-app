@@ -17,7 +17,7 @@ export default function DeckPage() {
   const [isLoading, setIsLoading] = useState(true); // Buat loading di awal
   const [retryTick, setRetryTick] = useState(0);
 
-  async function handleCreated(deck: Deck) {
+  function handleCreated(deck: Deck) {
     setDecks((prev) => [...prev, deck]);
   }
 

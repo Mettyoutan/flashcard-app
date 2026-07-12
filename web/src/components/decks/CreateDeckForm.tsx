@@ -7,6 +7,10 @@ import { Label } from "../ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { apiFetch, ApiError } from "@/lib/api";
 import type { Deck } from "@/types/deck";
+import { cn } from "@/lib/utils";
+
+const TITLE_MAX = 100;
+const DESCRIPTION_MAX = 50;
 
 // onCreated -> function yg dijalankan untuk update state di parent component setelah deck berhasil terbuat
 // , tanpa fetch yang baru lagi
@@ -23,7 +27,7 @@ export default function CreateDeckForm({ onCreated }: CreateDeckFormProps) {
 
   // Karena form, butuh function handleSubmit
   // Untuk activate request ke server
-  async function handleSubmit(e: SubmitEvent) {
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
@@ -61,6 +65,16 @@ export default function CreateDeckForm({ onCreated }: CreateDeckFormProps) {
               maxLength={100}
               required
             />
+            <p
+              className={cn(
+                "text-xs",
+                title.length >= TITLE_MAX
+                  ? "text-red-500"
+                  : "text-muted-foreground",
+              )}
+            >
+              {title.length}/{TITLE_MAX}
+            </p>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="description">Deskripsi</Label>
@@ -70,6 +84,16 @@ export default function CreateDeckForm({ onCreated }: CreateDeckFormProps) {
               onChange={(e) => setDescription(e.target.value)}
               maxLength={50}
             />
+            <p
+              className={cn(
+                "text-xs",
+                description.length >= DESCRIPTION_MAX
+                  ? "text-red-500"
+                  : "text-muted-foreground",
+              )}
+            >
+              {description.length}/{DESCRIPTION_MAX}
+            </p>
           </div>
           <div>{error && <p className="text-sm text-red-500">{error}</p>}</div>
           <Button type="submit" disabled={isSubmitting}>
