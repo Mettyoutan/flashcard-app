@@ -29,6 +29,7 @@ export default function CreateDeckForm({ onCreated }: CreateDeckFormProps) {
   // Untuk activate request ke server
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
+    e.stopPropagation();
     setError("");
     setIsSubmitting(true);
 

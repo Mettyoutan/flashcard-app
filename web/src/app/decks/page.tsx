@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // React component untuk Link
 import { ApiError, apiFetch } from "@/lib/api";
 import { type Deck } from "@/types/deck";
 import DeckCard from "@/components/decks/DeckCard";
