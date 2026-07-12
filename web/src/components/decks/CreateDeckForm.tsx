@@ -8,6 +8,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { apiFetch, ApiError } from "@/lib/api";
 import type { Deck } from "@/types/deck";
 
+// onCreated -> function yg dijalankan untuk update state di parent component setelah deck berhasil terbuat
+// , tanpa fetch yang baru lagi
 type CreateDeckFormProps = {
   onCreated: (deck: Deck) => void;
 };
@@ -27,7 +29,7 @@ export default function CreateDeckForm({ onCreated }: CreateDeckFormProps) {
     setIsSubmitting(true);
 
     try {
-      const deck = await apiFetch<Deck>("/deck", {
+      const deck = await apiFetch<Deck>("/decks", {
         method: "POST",
         body: { title, description: description || undefined },
       });
