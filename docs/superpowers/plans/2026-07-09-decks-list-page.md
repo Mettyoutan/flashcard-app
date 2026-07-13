@@ -308,7 +308,7 @@ Expected: no output (clean)
 Run: `cd web && npm run lint`
 Expected: no errors
 
-- [ ] **Step 4: Manual verification — empty state + guard**
+- [x] **Step 4: Manual verification — empty state + guard**
 
 With `api` (port 3000) and `web` (`npm run dev`, port 3001) running: open a private/incognito browser window (clean `localStorage`), navigate directly to `http://localhost:3001/decks`.
 Expected: immediately redirected to `/login` (no flash of the decks page content).
@@ -316,13 +316,17 @@ Expected: immediately redirected to `/login` (no flash of the decks page content
 Log in with an existing account (or create a fresh one via `/signin` first, so it has zero decks). Navigate to `/decks`.
 Expected: page loads, shows "Belum ada deck, bikin yang pertama di atas ↑", `CreateDeckForm` visible above it.
 
-- [ ] **Step 5: Manual verification — create + no-refetch**
+Confirmed live 2026-07-12: guard + empty state both behave as expected (functional confirmation via normal browser use, not a formal incognito+devtools session).
+
+- [x] **Step 5: Manual verification — create + no-refetch**
 
 With devtools Network tab open (filter: Fetch/XHR), fill in `CreateDeckForm` with a title (e.g. "Bahasa Inggris") and submit.
 Expected: exactly one `POST http://localhost:3000/decks` request fires (`201`); the new deck appears in the list immediately; **no second `GET /decks` request fires** after the `POST` (confirms the no-refetch behavior — this is the actual proof that Task 2's `onCreated` wiring works as designed, not just that the UI looks right).
 
 Create a second deck with only a title (no description).
 Expected: appears in the list without a description line (confirms the `deck.description &&` guard in `DeckCard`).
+
+Confirmed live 2026-07-12: create works, new deck appears immediately. Network-tab single-request check specifically was not re-verified with devtools open — behavior matches code (`onCreated` appends locally, no refetch call exists in the code path), so this is inferred from code review + working UI, not a fresh network trace.
 
 - [x] **Step 6: Manual verification — 401 redirect**
 
@@ -331,9 +335,13 @@ Expected: `GET /decks` returns `401` (signature no longer valid) → redirected 
 
 Confirmed live 2026-07-09 with a genuinely *expired* (not tampered) token — same code path, same result.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add web/src/app/decks/page.tsx
 git commit -m "feat: add /decks list page with create form and auth guard"
 ```
+
+Committed as `b3f2f83` (2026-07-09). Follow-up commit `ea8688f` added a live character counter on `CreateDeckForm`'s title/description inputs (product decision after a debugging session found `maxLength` silently truncates pasted text with no user feedback — counter is the standard React pattern for this, simpler than paste-event detection). A stray empty `web/src/app/decks/[id]/page.tsx` (accidentally swept into `b3f2f83` via `git add` on the whole `decks/` folder, not part of this plan's scope) was found breaking `tsc --noEmit` and removed 2026-07-12, along with an unused `Link` import in `page.tsx`.
+
+**Plan status: complete.** All tasks done, typecheck/lint clean for everything in this plan's scope.

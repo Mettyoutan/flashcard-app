@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type SubmitEvent } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -26,7 +25,6 @@ export default function CardItem({
   onUpdated,
   onDeleted,
 }: CardItemProps) {
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [front, setFront] = useState(card.front); // Default valuenya langsung ada
   const [back, setBack] = useState(card.back);
