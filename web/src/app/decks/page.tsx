@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { ApiError, apiFetch } from "@/lib/api";
 import { type Deck } from "@/types/deck";
@@ -90,6 +90,7 @@ export default function DeckPage() {
         </p>
       )}
 
+      {/* DECKCARD LIST */}
       {!error && decks.length > 0 && (
         <div className="flex flex-col gap-4">
           {/* Iterasi untuk buat DeckCard

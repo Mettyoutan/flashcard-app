@@ -47,7 +47,7 @@ export default function DeckDetailPage() {
     async function loadData() {
       try {
         const [deck, cards] = await Promise.all([
-          apiFetch<Deck>(`decks/${id}`),
+          apiFetch<Deck>(`/decks/${id}`),
           apiFetch<Card[]>(`/decks/${id}/cards`),
         ]);
         if (!ignore) {
