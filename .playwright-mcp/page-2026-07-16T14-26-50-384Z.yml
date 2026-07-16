@@ -1,0 +1,13 @@
+- generic [active] [ref=f3e1]:
+  - button "Open Next.js Dev Tools" [ref=f3e7] [cursor=pointer]
+  - alert [ref=f3e11]
+  - generic [ref=f3e55]:
+    - heading "Deck Test Review" [level=1] [ref=f3e56]
+    - generic [ref=f3e57]:
+      - paragraph [ref=f3e58]: Kartu 1 dari 3
+      - generic [ref=f3e59]:
+        - generic [ref=f3e60]: Depan
+        - paragraph [ref=f3e63]: Apple
+      - generic [ref=f3e64]:
+        - button "Prev" [disabled]
+        - button "Next" [ref=f3e65]

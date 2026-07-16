@@ -7,7 +7,8 @@ import { type Card as CardType } from "@/types/card";
 import { apiFetch, ApiError } from "@/lib/api";
 import CardItem from "@/components/cards/CardItem";
 import CreateCardForm from "@/components/cards/CreateCardForm";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 /**
  ** /decks/[id]
@@ -77,7 +78,15 @@ export default function DeckDetailPage() {
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6 p-4">
-      <h1 className="text-2xl font-bold">{deck?.title ?? "Deck"}</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">{deck?.title ?? "Deck"}</h1>
+        <Link
+          href={`/decks/${id}/study`}
+          className={buttonVariants({ variant: "default" })}
+        >
+          Mulai Belajar
+        </Link>
+      </div>
 
       <CreateCardForm deckId={id} onCreated={handleCardCreated} />
 
