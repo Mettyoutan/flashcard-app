@@ -35,6 +35,7 @@ export default function CreateCardForm({
     try {
       const createdCard = await apiFetch<CardType>(`/decks/${deckId}/cards`, {
         method: "POST",
+        body: { front, back },
       });
       onCreated(createdCard);
       setFront("");
@@ -94,9 +95,9 @@ export default function CreateCardForm({
             </p>
           </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
-          <button type="submit" disabled={isSubmiting}>
+          <Button type="submit" disabled={isSubmiting}>
             Buat card
-          </button>
+          </Button>
         </form>
       </CardContent>
     </Card>

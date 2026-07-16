@@ -1,0 +1,24 @@
+- generic [active] [ref=f2e1]:
+  - button "Open Next.js Dev Tools" [ref=f2e7] [cursor=pointer]
+  - alert [ref=f2e11]
+  - generic [ref=f2e12]:
+    - heading "Deck Test Review" [level=1] [ref=f2e13]
+    - generic [ref=f2e14]:
+      - generic [ref=f2e15]: Bikin Card Baru
+      - generic [ref=f2e18]:
+        - generic [ref=f2e19]:
+          - generic [ref=f2e20]: Depan
+          - textbox "Depan" [ref=f2e21]
+          - paragraph [ref=f2e22]: 0/100
+        - generic [ref=f2e23]:
+          - generic [ref=f2e24]: Belakang
+          - textbox "Belakang" [ref=f2e25]
+          - paragraph [ref=f2e26]: 0/300
+        - button "Buat card" [ref=f2e27]
+    - generic [ref=f2e30]:
+      - generic [ref=f2e31]: Apple
+      - generic [ref=f2e33]:
+        - paragraph [ref=f2e34]: Apel
+        - generic [ref=f2e35]:
+          - button "Edit" [ref=f2e36]
+          - button "Hapus" [ref=f2e37]

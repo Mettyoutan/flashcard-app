@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { Deck } from "@/types/deck";
-import { Card, type Card as CardType } from "@/types/card";
+import { type Card as CardType } from "@/types/card";
 import { apiFetch, ApiError } from "@/lib/api";
 import CardItem from "@/components/cards/CardItem";
 import CreateCardForm from "@/components/cards/CreateCardForm";
@@ -47,8 +47,8 @@ export default function DeckDetailPage() {
     async function loadData() {
       try {
         const [deck, cards] = await Promise.all([
-          apiFetch<Deck>(`/decks/${id}`),
-          apiFetch<Card[]>(`/decks/${id}/cards`),
+          apiFetch<Deck>(`/decks/${id}`, { method: "GET" }),
+          apiFetch<CardType[]>(`/decks/${id}/cards`, { method: "GET" }),
         ]);
         if (!ignore) {
           setDeck(deck);
@@ -56,6 +56,10 @@ export default function DeckDetailPage() {
         }
       } catch (e) {
         if (ignore) return;
+        if (e instanceof ApiError && e.status === 401) {
+          router.replace("/login");
+          return;
+        }
         setError(e instanceof ApiError ? e.message : "Gagal mengambil deck.");
       } finally {
         if (!ignore) setIsLoading(false);

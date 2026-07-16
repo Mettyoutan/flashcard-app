@@ -63,7 +63,7 @@ export default function CardItem({
       onUpdated(updatedCard);
       setIsEditing(false);
     } catch (e: unknown) {
-      setError(e instanceof ApiError ? e.message : "Gagal menghapus card.");
+      setError(e instanceof ApiError ? e.message : "Gagal update card.");
     } finally {
       setIsSubmitting(false);
     }

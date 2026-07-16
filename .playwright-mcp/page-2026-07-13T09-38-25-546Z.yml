@@ -1,0 +1,6 @@
+- generic [active] [ref=f1e1]:
+  - button "Open Next.js Dev Tools" [ref=f1e26] [cursor=pointer]
+  - alert [ref=f1e30]
+  - generic [ref=f1e31]:
+    - heading "Flashcard App" [level=1] [ref=f1e32]
+    - button "Logout" [ref=f1e33]
