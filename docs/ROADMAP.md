@@ -56,11 +56,12 @@
 - [ ] `/decks/[id]/study` — study view: flip card, next/prev (client component, local state)
 
 ### 7. Deploy (definition of done)
-- [ ] DB: provision Neon Postgres, jalanin migration production
-- [ ] API: deploy ke Render/Railway, set env vars (`DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN`, dll)
-- [ ] Frontend: deploy ke Vercel, set `NEXT_PUBLIC_API_URL` ke URL API production
-- [ ] Smoke test: register → login → buat deck → buat card → study mode, semua lewat URL publik
-- [ ] README repo ini: screenshot + link live
+- [x] DB: Neon Postgres udah provisioned (dev udah pake ini dari awal) — `npx prisma migrate status` konfirmasi up to date (2026-07-17). Keputusan: shared DB dev+prod, no branch terpisah (revisit P2).
+- [x] Pre-deploy code prep: `api/package.json` (`postinstall: prisma generate`, `engines.node`), `.env.example` (api+web), `.gitignore` fix, root `README.md` — semua committed+pushed (`1773d0e`, `7d9a017`).
+- [ ] **API: deploy ke Render — BLOCKED 2026-07-17.** Kode/config udah siap (build `npm install && npm run build`, start `npm run start:prod`, env vars terdaftar di `../CLAUDE.md` Deployment target section). Blocker: verifikasi kartu ($1 Stripe hold) declined terus di kartu debit BCA Tahapan Xpresi user walau toggle internasional+online udah aktif — kemungkinan besar soal recurring-billing authorization yang ga semua kartu debit support, bukan bug kode. Exception ground rule diambil, lihat `../../roadmap-45-hari-semoga-bisa/README.md` Progress Log + `../../learns/deploy-notes.md` buat troubleshooting lengkap. Cek Instance Type = Free dulu pas resume (kemungkinan salah pilih tier yang bikin kartu jadi wajib).
+- [ ] Frontend: deploy ke Vercel, set `NEXT_PUBLIC_API_URL` ke URL API production — **ga ke-block** oleh masalah kartu Render, bisa dikerjain kapan aja terpisah.
+- [ ] Smoke test: register → login → buat deck → buat card → study mode, semua lewat URL publik (nunggu API live)
+- [ ] README repo ini: udah ada skeleton (`README.md` root, placeholder live link) — isi link asli pas deploy kelar
 - [ ] Retro 3 kalimat (apa yang baru dipelajari, apa yang bikin stuck, apa yang beda di P2) — masuk ke progress log master roadmap, bukan di sini
 
 ---
