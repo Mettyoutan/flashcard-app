@@ -42,7 +42,7 @@ export default function StudyPage() {
 
     let ignore = false;
 
-    async function fecthData() {
+    async function fetchData() {
       try {
         const [deck, cards] = await Promise.all([
           apiFetch<Deck>(`/decks/${id}`, { method: "GET" }),
@@ -57,7 +57,7 @@ export default function StudyPage() {
         }
       } catch (e) {
         if (ignore) return;
-        // Check UNAUHTHORIZED
+        // Check UNAUTHORIZED
         if (e instanceof ApiError && e.status === 401) {
           router.replace("/login");
           return;
@@ -70,7 +70,7 @@ export default function StudyPage() {
       }
     }
 
-    fecthData();
+    fetchData();
 
     return () => {
       ignore = true;
@@ -125,9 +125,14 @@ export default function StudyPage() {
               <CardTitle>{!isFlipped ? "Depan" : "Belakang"}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="mt-2 text-xs text-muted-foreground">
+              <p className="text-lg">
                 {!isFlipped ? currentCard.front : currentCard.back}
               </p>
+              {!isFlipped && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Klik untuk lihat jawaban
+                </p>
+              )}
             </CardContent>
           </Card>
 
